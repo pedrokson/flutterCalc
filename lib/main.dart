@@ -11,10 +11,10 @@ class CalcApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Calc',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: HomePage(title: 'FlutterCalc'),
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Montserrat'),
+      home: HomePage(title: 'Flutter Calculator'),
     );
   }
 }
@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 flex: 6),
+            Divider(color: Colors.black),
             ButtonRow(['7', '8', '9', '/'], this.pressionarBotao),
             ButtonRow(['4', '5', '6', 'x'], this.pressionarBotao),
             ButtonRow(['1', '2', '3', '-'], this.pressionarBotao),

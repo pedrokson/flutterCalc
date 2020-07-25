@@ -10,17 +10,27 @@ class CalcButton extends StatelessWidget {
 
   CalcButton(this._nome, this._pressionarBotaoCallback);
 
+  TextStyle _gerarEstilo() {
+    String numeros = "0123456789";
+    if (numeros.contains(_nome)) {
+      return TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black);
+    } else {
+      return TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: FlatButton(
-          color: Colors.blue,
+          color: Colors.white12,
           onPressed: () => {_pressionarBotaoCallback(_nome)},
           child: Center(
               child: Text(
             _nome,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+            style: _gerarEstilo(),
           )),
         ),
         flex: 1);
