@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterCalc/components/calc_button.dart';
+import 'package:flutterCalc/components/button_row.dart';
 
 void main() {
   runApp(CalcApp());
@@ -29,12 +29,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  int _total = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  /// Callback passada para os botões que retorna o botão pressionado
+  /// no atributo [nome].
+  void pressionarBotao(String nome) {
+    print(nome);
   }
 
   @override
@@ -55,60 +55,16 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.only(bottom: 20, right: 20),
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        'Placeholder',
+                        _total.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 26),
                       )),
                 ),
                 flex: 6),
-            Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CalcButton('7'),
-                    CalcButton('8'),
-                    CalcButton('9'),
-                    CalcButton('x'),
-                  ],
-                ),
-                flex: 2),
-            Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CalcButton('4'),
-                    CalcButton('5'),
-                    CalcButton('6'),
-                    CalcButton('-'),
-                  ],
-                ),
-                flex: 2),
-            Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CalcButton('1'),
-                    CalcButton('2'),
-                    CalcButton('3'),
-                    CalcButton('+'),
-                  ],
-                ),
-                flex: 2),
-            Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CalcButton('-'),
-                    CalcButton('0'),
-                    CalcButton('-'),
-                    CalcButton('='),
-                  ],
-                ),
-                flex: 2)
+            ButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
+            ButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
+            ButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
+            ButtonRow(['C', '0', '.', '='], this.pressionarBotao),
           ],
         ),
       ),
