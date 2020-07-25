@@ -14,12 +14,13 @@ class CalcButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: FlatButton(
-          color: Colors.black38,
+          color: Colors.blue,
           onPressed: () => {_pressionarBotaoCallback(_nome)},
           child: Center(
               child: Text(
             _nome,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
           )),
         ),
         flex: 1);
