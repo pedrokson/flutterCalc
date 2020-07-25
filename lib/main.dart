@@ -9,7 +9,7 @@ class CalcApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Calc',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _primeiroNumero = 0;
-  String _operacoes = "Cx+\-=CE";
+  String _operacoes = "Cx+-=/";
   String _operacaoSelecionada = "";
 
   String _resultadoParcial = "";
@@ -82,8 +82,10 @@ class _HomePageState extends State<HomePage> {
       return num1 + num2;
     } else if (operacao == '-') {
       return num1 - num2;
-    } else {
+    } else if (operacao == 'x') {
       return num1 * num2;
+    } else {
+      return num1 ~/ num2;
     }
   }
 
@@ -124,10 +126,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 flex: 6),
-            ButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
-            ButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
-            ButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
-            ButtonRow(['C', '0', '', '='], this.pressionarBotao),
+            ButtonRow(['7', '8', '9', '/'], this.pressionarBotao),
+            ButtonRow(['4', '5', '6', 'x'], this.pressionarBotao),
+            ButtonRow(['1', '2', '3', '-'], this.pressionarBotao),
+            ButtonRow(['C', '0', '=', '+'], this.pressionarBotao),
           ],
         ),
       ),
