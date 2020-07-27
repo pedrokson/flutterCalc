@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterCalc/components/button_row.dart';
+import 'package:flutterCalc/components/calc_screen.dart';
 
 void main() {
   runApp(CalcApp());
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage> {
           _primeiroNumero = _total;
           _operacaoSelecionada = nome;
           setState(() {
+            _total = 0;
             _resultadoParcial =
                 _primeiroNumero.toString() + _operacaoSelecionada;
           });
@@ -100,32 +102,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(
-                child: Container(
-                  color: Colors.white30,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(bottom: 20, right: 20),
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            _resultadoParcial,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 18),
-                          )),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 20, right: 20),
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            _total.toString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 50),
-                          ))
-                    ],
-                  ),
-                ),
-                flex: 6),
+            CalcScreen(_resultadoParcial, _total),
             Divider(color: Colors.black),
             ButtonRow(['7', '8', '9', '/'], this.pressionarBotao),
             ButtonRow(['4', '5', '6', 'x'], this.pressionarBotao),
