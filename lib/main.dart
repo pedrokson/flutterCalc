@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            CalcScreen(_resultadoParcial, _total),
+            CalcScreen(_resultadoParcial, _total.toString()),
             Divider(color: Colors.black),
             ButtonRow(['7', '8', '9', '/'], this.pressionarBotao),
             ButtonRow(['4', '5', '6', 'x'], this.pressionarBotao),

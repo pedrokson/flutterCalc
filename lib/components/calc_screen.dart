@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// Classe que representa as duas telas que permitem a visualização dos resultados
+/// das operações
 class CalcScreen extends StatelessWidget {
   final String _resultadoParcial;
-  final int _total;
+  final String _resultadoFinal;
 
-  CalcScreen(this._resultadoParcial, this._total);
+  CalcScreen(this._resultadoParcial, this._resultadoFinal);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class CalcScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 20, right: 20),
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    _total.toString(),
+                    _resultadoFinal,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                   ))
             ],
