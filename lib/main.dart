@@ -47,29 +47,28 @@ class _HomePageState extends State<HomePage> {
           ? _atualizarTotal(double.parse(_removerZerosADireita(_total) + nome))
           : _atualizarTotal(double.parse(nome));
     } else {
-      if (nome == 'C') {
-        _atualizarTotal();
-        setState(() {
-          _resultadoParcial = "";
-          _operacaoSelecionada = "";
-        });
-      } else {
-        if (nome == '=') {
-          _atualizarTotal(_calcularResultadoOperacao(
-              _primeiroNumero, _total, _operacaoSelecionada));
-          setState(() {
-            _resultadoParcial = '';
-            _operacaoSelecionada = '';
-          });
-        } else {
-          _primeiroNumero = _total;
-          _operacaoSelecionada = nome;
-          _atualizarTotal();
-          setState(() {
-            _resultadoParcial =
-                _removerZerosADireita(_primeiroNumero) + _operacaoSelecionada;
-          });
-        }
+      switch (nome) {
+        case 'C':
+          _limparDados();
+          break;
+        case '=':
+          _calcularOperacao();
+          break;
+        case '<-':
+
+          /// TODO: Implementar remoção de digito
+          break;
+        case '%':
+
+          /// TODO: Implementar porcentagem
+          break;
+        case '.':
+
+          /// TODO: Implementar tratamento de pontos
+          break;
+        default:
+          _adicionarDigito(nome);
+          break;
       }
     }
   }
@@ -102,6 +101,37 @@ class _HomePageState extends State<HomePage> {
     return valorStr.substring(0, i + 1);
   }
 
+  /// Adiciona o digito correspondente a [nome] na operação e no visor
+  void _adicionarDigito(String nome) {
+    _primeiroNumero = _total;
+    _operacaoSelecionada = nome;
+    _atualizarTotal();
+    setState(() {
+      _resultadoParcial =
+          _removerZerosADireita(_primeiroNumero) + _operacaoSelecionada;
+    });
+  }
+
+  /// Calcula o resultado da operação e exibe na tela
+  void _calcularOperacao() {
+    _atualizarTotal(_calcularResultadoOperacao(
+        _primeiroNumero, _total, _operacaoSelecionada));
+    setState(() {
+      _resultadoParcial = '';
+      _operacaoSelecionada = '';
+    });
+  }
+
+  /// Limpa todos os dados de operação e reseta o visor
+  void _limparDados() {
+    setState(() {
+      _total = 0;
+      _resultadoFinal = "0";
+      _resultadoParcial = "";
+      _operacaoSelecionada = "";
+    });
+  }
+
   /// Atualiza valores de total e resultado final para
   /// um determinado valor [n]
   void _atualizarTotal([double n = 0]) {
@@ -124,10 +154,11 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             CalcScreen(_resultadoParcial, _resultadoFinal),
             Divider(color: Colors.black),
-            ButtonRow(['7', '8', '9', '/'], this.pressionarBotao),
-            ButtonRow(['4', '5', '6', 'x'], this.pressionarBotao),
-            ButtonRow(['1', '2', '3', '-'], this.pressionarBotao),
-            ButtonRow(['C', '0', '=', '+'], this.pressionarBotao),
+            ButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
+            ButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
+            ButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
+            ButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
+            ButtonRow(['', '0', '.', '='], this.pressionarBotao),
           ],
         ),
       ),
