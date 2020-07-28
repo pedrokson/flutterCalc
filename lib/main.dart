@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   void pressionarBotao(String nome) {
     if (!_operacoes.contains(nome)) {
       _total != 0
-          ? _atualizarTotal(double.parse(_tratarZeros(_total) + nome))
+          ? _atualizarTotal(double.parse(_removerZerosADireita(_total) + nome))
           : _atualizarTotal(double.parse(nome));
     } else {
       if (nome == 'C') {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           _atualizarTotal();
           setState(() {
             _resultadoParcial =
-                _tratarZeros(_primeiroNumero) + _operacaoSelecionada;
+                _removerZerosADireita(_primeiroNumero) + _operacaoSelecionada;
           });
         }
       }
@@ -88,21 +88,26 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  String _tratarZeros(double n) {
-    String valorStr = n.toStringAsFixed(6);
-    String antesPonto = valorStr.split('.')[0];
-    String depoisPonto = valorStr.split('.')[1];
-    if (depoisPonto.replaceAll('0', '').length == 0) {
-      return antesPonto;
-    } else {
-      return valorStr;
+  /// Remove zeros à direita de um determinado valor [n]
+  /// (ex.: 1.50000 retorna 1.5, 2.581000 retorna 2.581)
+  String _removerZerosADireita(double n) {
+    String valorStr = n.toStringAsFixed(7);
+    int i = valorStr.length - 1;
+    while (valorStr[i] == '0') {
+      i--;
     }
+    if (valorStr[i] == '.') {
+      i--;
+    }
+    return valorStr.substring(0, i + 1);
   }
 
+  /// Atualiza valores de total e resultado final para
+  /// um determinado valor [n]
   void _atualizarTotal([double n = 0]) {
     setState(() {
       _total = n;
-      _resultadoFinal = _tratarZeros(n);
+      _resultadoFinal = _removerZerosADireita(n);
     });
   }
 
