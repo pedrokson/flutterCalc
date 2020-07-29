@@ -58,8 +58,7 @@ class _HomePageState extends State<HomePage> {
           _removerDigito();
           break;
         case '%':
-
-          /// TODO: Implementar porcentagem
+          _atualizarTotal(_total / 100);
           break;
         case '.':
 
