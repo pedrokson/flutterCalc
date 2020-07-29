@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _operacoes = 'Cx+-=/';
+  List<String> _operacoes = ['C', '<-', '%', '/', 'x', '+', '-', '='];
   String _operacaoSelecionada = '';
 
   double _primeiroNumero = 0;
@@ -55,8 +55,7 @@ class _HomePageState extends State<HomePage> {
           _calcularOperacao();
           break;
         case '<-':
-
-          /// TODO: Implementar remoção de digito
+          _removerDigito();
           break;
         case '%':
 
@@ -110,6 +109,16 @@ class _HomePageState extends State<HomePage> {
       _resultadoParcial =
           _removerZerosADireita(_primeiroNumero) + _operacaoSelecionada;
     });
+  }
+
+  /// Remove o último digito inserido no visor
+  void _removerDigito() {
+    String totalStr = _removerZerosADireita(_total);
+    try {
+      _atualizarTotal(double.parse(totalStr.substring(0, totalStr.length - 1)));
+    } on FormatException {
+      _atualizarTotal(0);
+    }
   }
 
   /// Calcula o resultado da operação e exibe na tela
