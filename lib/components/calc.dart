@@ -9,7 +9,7 @@ class Calc extends StatefulWidget {
 }
 
 class _CalcState extends State<Calc> {
-  List<String> _operacoes = ['C', '<-', '%', '/', 'x', '+', '-', '='];
+  List<String> _operacoes = ['C', '<-', '%', '/', 'x', '+', '-', '=', '.'];
   String _operacaoSelecionada = '';
 
   double _primeiroNumero = 0;
@@ -22,9 +22,16 @@ class _CalcState extends State<Calc> {
   /// no atributo [nome]
   void pressionarBotao(String nome) {
     if (!_operacoes.contains(nome)) {
-      _total != 0
-          ? _atualizarTotal(double.parse(_removerZerosADireita(_total) + nome))
-          : _atualizarTotal(double.parse(nome));
+      if (_total != 0) {
+        if (_resultadoFinal.endsWith('.')) {
+          _atualizarTotal(
+              double.parse(_removerZerosADireita(_total, true) + nome));
+        } else {
+          _atualizarTotal(double.parse(_removerZerosADireita(_total) + nome));
+        }
+      } else {
+        _atualizarTotal(double.parse(nome));
+      }
     } else {
       switch (nome) {
         case 'C':
@@ -40,8 +47,7 @@ class _CalcState extends State<Calc> {
           _atualizarTotal(_total / 100);
           break;
         case '.':
-
-          /// TODO: Implementar tratamento de pontos
+          _adicionarPonto();
           break;
         default:
           _adicionarDigito(nome);
@@ -66,13 +72,13 @@ class _CalcState extends State<Calc> {
 
   /// Remove zeros à direita de um determinado valor [n]
   /// (ex.: 1.50000 retorna 1.5, 2.581000 retorna 2.581)
-  String _removerZerosADireita(double n) {
+  String _removerZerosADireita(double n, [bool manterPonto = false]) {
     String valorStr = n.toStringAsFixed(7);
     int i = valorStr.length - 1;
     while (valorStr[i] == '0') {
       i--;
     }
-    if (valorStr[i] == '.') {
+    if (valorStr[i] == '.' && !manterPonto) {
       i--;
     }
     return valorStr.substring(0, i + 1);
@@ -87,6 +93,11 @@ class _CalcState extends State<Calc> {
       _resultadoParcial =
           _removerZerosADireita(_primeiroNumero) + _operacaoSelecionada;
     });
+  }
+
+  /// Adiciona um ponto caso o número no visor não possua um
+  void _adicionarPonto() {
+    _atualizarTotal(_total, true);
   }
 
   /// Remove o último digito inserido no visor
@@ -121,10 +132,10 @@ class _CalcState extends State<Calc> {
 
   /// Atualiza valores de total e resultado final para
   /// um determinado valor [n]
-  void _atualizarTotal([double n = 0]) {
+  void _atualizarTotal([double n = 0, bool manterPonto = false]) {
     setState(() {
       _total = n;
-      _resultadoFinal = _removerZerosADireita(n);
+      _resultadoFinal = _removerZerosADireita(n, manterPonto);
     });
   }
 
