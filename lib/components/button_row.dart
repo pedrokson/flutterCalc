@@ -14,7 +14,11 @@ class ButtonRow extends StatelessWidget {
   List<Widget> _gerarBotoes() {
     List<Widget> botoes = new List();
     _listaNomeBotoes.forEach((nome) {
-      botoes.add(CalcButton(nome, pressionarBotaoCallback));
+      if (nome == 'switch') {
+        botoes.add(CalcButton(nome, pressionarBotaoCallback, true));
+      } else {
+        botoes.add(CalcButton(nome, pressionarBotaoCallback));
+      }
     });
     return botoes;
   }

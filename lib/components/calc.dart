@@ -152,7 +152,7 @@ class _CalcState extends State<Calc> {
           ButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
           ButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
           ButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
-          ButtonRow(['', '0', '.', '='], this.pressionarBotao),
+          ButtonRow(['switch', '0', '.', '='], this.pressionarBotao),
         ],
       ),
     );
