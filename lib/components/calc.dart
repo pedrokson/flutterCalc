@@ -11,19 +11,27 @@ class Calc extends StatefulWidget {
 }
 
 class _CalcState extends State<Calc> {
-  List<String> _operacoes = Constants.OPERACOES;
+  /// Operação pressionada
   String _operacaoSelecionada = '';
 
+  /// Primeiro valor informado
   double _primeiroNumero = 0;
+
+  /// Valor atual na tela
   double _total = 0;
 
+  /// Visualização do primeiro valor informado e operação selecionada
   String _resultadoParcial = '';
+
+  /// Visualização do valor total
   String _resultadoFinal = '0';
+
+  bool _modoCientifico = false;
 
   /// Callback passada para os botões que retorna o botão pressionado
   /// no atributo [nome]
   void pressionarBotao(String nome) {
-    if (!_operacoes.contains(nome)) {
+    if (Constants.NUMEROS.contains(nome)) {
       if (_total != 0) {
         if (_resultadoFinal.endsWith('.')) {
           _atualizarTotal(
@@ -34,7 +42,7 @@ class _CalcState extends State<Calc> {
       } else {
         _atualizarTotal(double.parse(nome));
       }
-    } else {
+    } else if (Constants.OPERACOES.contains(nome)) {
       switch (nome) {
         case 'C':
           _limparDados();
@@ -51,8 +59,38 @@ class _CalcState extends State<Calc> {
         case '.':
           _adicionarPonto();
           break;
+        case 'π':
+
+          /// TODO: Implementar geração de pi
+          break;
+        case 'e':
+
+          /// TODO: Implementar e
+          break;
+        case '1/x':
+
+          /// TODO: Implementar operação de inversão
+          break;
+        case '√x':
+
+          /// TODO: Implementar raiz quadrada
+          break;
+        case 'x!':
+
+          /// TODO: Implementar fatorial
+          break;
         default:
           _adicionarDigito(nome);
+          break;
+      }
+    } else {
+      switch (nome) {
+        case 'switch':
+          setState(() {
+            _modoCientifico = !_modoCientifico;
+          });
+          break;
+        default:
           break;
       }
     }
@@ -141,21 +179,39 @@ class _CalcState extends State<Calc> {
     });
   }
 
+  List<Widget> _gerarBotoes() {
+    List<Widget> botoes = List();
+    botoes.addAll([
+      CalcScreen(_resultadoParcial, _resultadoFinal),
+      Divider(color: Colors.black)
+    ]);
+    if (_modoCientifico) {
+      botoes.addAll([
+        CalcButtonRow(['x!', 'C', '<-', '%', '/'], this.pressionarBotao),
+        CalcButtonRow(['√x', '7', '8', '9', 'x'], this.pressionarBotao),
+        CalcButtonRow(['1/x', '4', '5', '6', '-'], this.pressionarBotao),
+        CalcButtonRow(['π', '1', '2', '3', '+'], this.pressionarBotao),
+        CalcButtonRow(['switch', 'e', '0', '.', '='], this.pressionarBotao)
+      ]);
+    } else {
+      botoes.addAll([
+        CalcButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
+        CalcButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
+        CalcButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
+        CalcButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
+        CalcButtonRow(['switch', '0', '.', '='], this.pressionarBotao)
+      ]);
+    }
+    return botoes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          CalcScreen(_resultadoParcial, _resultadoFinal),
-          Divider(color: Colors.black),
-          CalcButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
-          CalcButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
-          CalcButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
-          CalcButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
-          CalcButtonRow(['switch', '0', '.', '='], this.pressionarBotao),
-        ],
+        children: _gerarBotoes(),
       ),
     );
   }
