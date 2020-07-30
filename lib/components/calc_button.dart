@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutterCalc/constants.dart' as Constants;
+
 /// Classe que representa um botão da calculadora
 class CalcButton extends StatelessWidget {
   /// nome do botão escrito na tecla
@@ -26,8 +28,7 @@ class CalcButton extends StatelessWidget {
   }
 
   TextStyle _gerarEstilo() {
-    String numeros = "0123456789";
-    if (numeros.contains(_nome)) {
+    if (Constants.NUMEROS.contains(_nome)) {
       return TextStyle(
           fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black);
     } else {

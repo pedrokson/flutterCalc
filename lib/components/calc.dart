@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterCalc/components/button_row.dart';
+import 'package:flutterCalc/components/calc_button_row.dart';
 import 'package:flutterCalc/components/calc_screen.dart';
+
+import 'package:flutterCalc/constants.dart' as Constants;
 
 /// Classe que representa a calculadora e seu funcionamento
 class Calc extends StatefulWidget {
@@ -9,7 +11,7 @@ class Calc extends StatefulWidget {
 }
 
 class _CalcState extends State<Calc> {
-  List<String> _operacoes = ['C', '<-', '%', '/', 'x', '+', '-', '=', '.'];
+  List<String> _operacoes = Constants.OPERACOES;
   String _operacaoSelecionada = '';
 
   double _primeiroNumero = 0;
@@ -148,11 +150,11 @@ class _CalcState extends State<Calc> {
         children: <Widget>[
           CalcScreen(_resultadoParcial, _resultadoFinal),
           Divider(color: Colors.black),
-          ButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
-          ButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
-          ButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
-          ButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
-          ButtonRow(['switch', '0', '.', '='], this.pressionarBotao),
+          CalcButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
+          CalcButtonRow(['7', '8', '9', 'x'], this.pressionarBotao),
+          CalcButtonRow(['4', '5', '6', '-'], this.pressionarBotao),
+          CalcButtonRow(['1', '2', '3', '+'], this.pressionarBotao),
+          CalcButtonRow(['switch', '0', '.', '='], this.pressionarBotao),
         ],
       ),
     );
