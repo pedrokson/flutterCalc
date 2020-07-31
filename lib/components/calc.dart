@@ -27,7 +27,14 @@ class _CalcState extends State<Calc> {
   /// Visualização do valor total
   String _resultadoFinal = '0';
 
+  /// Habilita operações adicionais
   bool _modoCientifico = false;
+
+  /// Troca as operações trigonomêtricas pelos seus arcos
+  bool _modoSecundario = false;
+
+  /// Indica se o valor no visor está em graus ou radianos
+  String _metricaAngulo = 'rad';
 
   /// Callback passada para os botões que retorna o botão pressionado
   /// no atributo [nome]
@@ -75,6 +82,37 @@ class _CalcState extends State<Calc> {
         case 'x!':
           _atualizarTotal(_calcularFatorial(_total));
           break;
+        case '2nd':
+          setState(() {
+            _modoSecundario = !_modoSecundario;
+          });
+          break;
+        case 'deg':
+
+          /// TODO: Implementar a troca entre graus e radianos
+          break;
+        case 'rad':
+
+          /// TODO: Implementar a troca entre graus e radianos
+          break;
+        case 'sin':
+          _calcularOperacaoTrigonometrica(math.sin);
+          break;
+        case 'asin':
+          _calcularOperacaoTrigonometrica(math.asin);
+          break;
+        case 'cos':
+          _calcularOperacaoTrigonometrica(math.cos);
+          break;
+        case 'acos':
+          _calcularOperacaoTrigonometrica(math.acos);
+          break;
+        case 'tan':
+          _calcularOperacaoTrigonometrica(math.tan);
+          break;
+        case 'atan':
+          _calcularOperacaoTrigonometrica(math.atan);
+          break;
         default:
           _adicionarDigito(nome);
           break;
@@ -112,6 +150,14 @@ class _CalcState extends State<Calc> {
       return 1;
     } else {
       return n * _calcularFatorial(n - 1);
+    }
+  }
+
+  void _calcularOperacaoTrigonometrica(Function(double) f) {
+    if (_metricaAngulo == 'rad') {
+      _atualizarTotal(f(_total));
+    } else {
+      /// TODO: Implementar cálculo trigonométrico usando graus
     }
   }
 
@@ -191,13 +237,27 @@ class _CalcState extends State<Calc> {
       Divider(color: Colors.black)
     ]);
     if (_modoCientifico) {
-      botoes.addAll([
-        CalcButtonRow(['x!', 'C', '<-', '%', '/'], this.pressionarBotao),
-        CalcButtonRow(['√x', '7', '8', '9', 'x'], this.pressionarBotao),
-        CalcButtonRow(['1/x', '4', '5', '6', '-'], this.pressionarBotao),
-        CalcButtonRow(['π', '1', '2', '3', '+'], this.pressionarBotao),
-        CalcButtonRow(['switch', 'e', '0', '.', '='], this.pressionarBotao)
-      ]);
+      if (_modoSecundario) {
+        botoes.addAll([
+          CalcButtonRow(['2nd', _metricaAngulo, 'asin', 'acos', 'atan'],
+              this.pressionarBotao),
+          CalcButtonRow(['x!', 'C', '<-', '%', '/'], this.pressionarBotao),
+          CalcButtonRow(['√x', '7', '8', '9', 'x'], this.pressionarBotao),
+          CalcButtonRow(['1/x', '4', '5', '6', '-'], this.pressionarBotao),
+          CalcButtonRow(['π', '1', '2', '3', '+'], this.pressionarBotao),
+          CalcButtonRow(['switch', 'e', '0', '.', '='], this.pressionarBotao)
+        ]);
+      } else {
+        botoes.addAll([
+          CalcButtonRow(['2nd', _metricaAngulo, 'sin', 'cos', 'tan'],
+              this.pressionarBotao),
+          CalcButtonRow(['x!', 'C', '<-', '%', '/'], this.pressionarBotao),
+          CalcButtonRow(['√x', '7', '8', '9', 'x'], this.pressionarBotao),
+          CalcButtonRow(['1/x', '4', '5', '6', '-'], this.pressionarBotao),
+          CalcButtonRow(['π', '1', '2', '3', '+'], this.pressionarBotao),
+          CalcButtonRow(['switch', 'e', '0', '.', '='], this.pressionarBotao)
+        ]);
+      }
     } else {
       botoes.addAll([
         CalcButtonRow(['C', '<-', '%', '/'], this.pressionarBotao),
