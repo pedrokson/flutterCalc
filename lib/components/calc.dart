@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterCalc/components/calc_button_row.dart';
 import 'package:flutterCalc/components/calc_screen.dart';
 
+import 'dart:math' as math;
 import 'package:flutterCalc/constants.dart' as Constants;
 
 /// Classe que representa a calculadora e seu funcionamento
@@ -60,24 +61,19 @@ class _CalcState extends State<Calc> {
           _adicionarPonto();
           break;
         case 'π':
-
-          /// TODO: Implementar geração de pi
+          _atualizarTotal(double.parse(math.pi.toStringAsFixed(7)));
           break;
         case 'e':
-
-          /// TODO: Implementar e
+          _atualizarTotal(math.exp(_total));
           break;
         case '1/x':
-
-          /// TODO: Implementar operação de inversão
+          _atualizarTotal(1 / _total);
           break;
         case '√x':
-
-          /// TODO: Implementar raiz quadrada
+          _atualizarTotal(math.sqrt(_total));
           break;
         case 'x!':
-
-          /// TODO: Implementar fatorial
+          _atualizarTotal(_calcularFatorial(_total));
           break;
         default:
           _adicionarDigito(nome);
@@ -107,6 +103,15 @@ class _CalcState extends State<Calc> {
       return num1 * num2;
     } else {
       return num1 / num2;
+    }
+  }
+
+  /// Calcula fatorial de um número [n]
+  double _calcularFatorial(double n) {
+    if (n <= 1) {
+      return 1;
+    } else {
+      return n * _calcularFatorial(n - 1);
     }
   }
 
