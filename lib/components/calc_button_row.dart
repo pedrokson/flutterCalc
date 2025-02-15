@@ -6,7 +6,7 @@ import 'package:flutterCalc/constants.dart' as Constants;
 /// Classe que representa uma fileira de botões
 class CalcButtonRow extends StatelessWidget {
   /// Lista de botões na fileira
-  final List<String> _listaNomeBotoes;
+  final List<String> _listaNomeBotoes; 
 
   /// Callback passada para os botões que captura evento de pressionar o botão
   final Function(String) pressionarBotaoCallback;
